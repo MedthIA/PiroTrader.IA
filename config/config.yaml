@@ -1,0 +1,117 @@
+# PiroTrader.IA - Configuração Principal
+# Versão: 0.1 Beta
+
+# Configurações Gerais
+general:
+  environment: "production"  # production/development
+  debug_mode: false
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  timezone: "UTC"
+
+# Configurações de API
+api:
+  # Binance API
+  binance:
+    api_key: "${BINANCE_API_KEY}"
+    api_secret: "${BINANCE_SECRET_KEY}" 
+    testnet: false  # Usar testnet (false para produção com dinheiro real)
+    recv_window: 5000  # ms
+    timeout: 30000  # ms
+
+  # DeepSeek API
+  deepseek:
+    api_key: "${DEEPSEEK_API_KEY}"
+    model: "deepseek-chat"
+    temperature: 0.7
+    max_tokens: 1000
+
+# Configurações do Trading
+trading:
+  base_currency: "USDT"
+  allowed_pairs:
+    - "BTCUSDT"
+    - "ETHUSDT"
+    - "BNBUSDT"
+    - "ADAUSDT"
+    - "DOGEUSDT"
+    - "XRPUSDT"
+    - "SOLUSDT"
+  max_open_positions: 5
+  default_order_type: "MARKET"  # MARKET, LIMIT
+  risk_management:
+    max_portfolio_risk_percent: 2.0  # % do portfólio em risco por operação
+    stop_loss_percent: 2.5  # %
+    take_profit_percent: 5.0  # %
+    trailing_stop: true
+    trailing_stop_percent: 1.0  # %
+
+# Configurações de Estratégia
+strategies:
+  default_strategy: "rsi_strategy"
+  strategy_update_interval: 60  # segundos
+  available_strategies:
+    - name: "rsi_strategy"
+      enabled: true
+      params:
+        rsi_period: 14
+        rsi_overbought: 70
+        rsi_oversold: 30
+        candle_interval: "1h"
+    - name: "macd_strategy"
+      enabled: true
+      params:
+        fast_period: 12
+        slow_period: 26
+        signal_period: 9
+        candle_interval: "4h"
+    - name: "bollinger_bands_strategy"
+      enabled: false
+      params:
+        period: 20
+        std_dev: 2
+        candle_interval: "1h"
+
+# Configurações da Web e API Server
+web:
+  host: "127.0.0.1"
+  port: 8000
+  debug: false
+  secret_key: "pirotrader_secure_key"
+
+# Configurações do Chat
+chat:
+  host: "127.0.0.1"
+  port: 8001
+  max_message_length: 1000
+  history_size: 50
+
+# Notificações
+notifications:
+  email:
+    enabled: true
+    sender: "${EMAIL_SENDER}"
+    password: "${EMAIL_PASSWORD}"
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    recipients:
+      - "pirotrader.ai@gmail.com"
+  
+  # Níveis de alerta para notificações
+  alert_levels:
+    profit_target_reached: true  # Quando atingir take profit
+    stop_loss_triggered: true    # Quando stop loss for acionado
+    new_trade_opened: true       # Quando abrir nova posição
+    error_critical: true         # Erros críticos do sistema 
+
+# Configurações de log
+logging:
+  level: "INFO"  # Nível de log (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  file: "logs/pirotrader.log"  # Arquivo de log
+  max_size_mb: 10  # Tamanho máximo do arquivo de log em MB
+  backup_count: 5  # Número de arquivos de backup a manter
+
+# Configurações da API REST
+api_server:
+  host: "127.0.0.1"  # Endereço de escuta
+  port: 8080  # Porta para a API REST (alterada de 8000 para evitar conflito com o web server)
+  debug: false  # Modo de depuração
