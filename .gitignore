@@ -1,0 +1,26 @@
+# Ambiente virtual
+venv/
+env/
+.env
+
+# Arquivos compilados Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Diretórios de log e dados
+logs/
+data/
+
+# Arquivos de credenciais
+.env
+*.key
+*.pem
+
+# Caches
+.pytest_cache/
+.coverage
+
+# Arquivos de configuração específicos do sistema
+.DS_Store
+Thumbs.db
